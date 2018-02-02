@@ -117,14 +117,15 @@ def denoise_auto_encoder(_X, _weights, _biases, _keep_prob):
 
 # MODEL AS A FUNCTION
 #reconstruction = denoise_auto_encoder(x, weights, biases, dropout_keep_prob)
-reconstruction = RecNet(x,J)
-print ("NETOWRK READY")
+with tf.device('/device:GPU:2'):
+    reconstruction = RecNet(x,J)
+
 
 
 # COST
-cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
+    cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
 # OPTIMIZER
-optm = tf.train.AdamOptimizer(0.01).minimize(cost) 
+    optm = tf.train.AdamOptimizer(0.01).minimize(cost) 
 # INITIALIZER
 init = tf.initialize_all_variables()
 print ("FUNCTIONS READY")
@@ -140,7 +141,7 @@ epochs     = 50
 batch_size = 100
 disp_step  = 1
 
-sess = tf.Session()
+sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 sess.run(init)
 if TRAIN_FLAG:
     print ("START OPTIMIZATION")
