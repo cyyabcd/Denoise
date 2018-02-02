@@ -1,2 +1,2 @@
-model_checkpoint_path: "denoise_auto_encoder.ckpt-21"
-all_model_checkpoint_paths: "denoise_auto_encoder.ckpt-21"
+model_checkpoint_path: "denoise_auto_encoder.ckpt-49"
+all_model_checkpoint_paths: "denoise_auto_encoder.ckpt-49"
