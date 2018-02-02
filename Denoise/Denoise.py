@@ -139,7 +139,7 @@ print ("SAVER READY")
 TRAIN_FLAG = 1
 epochs     = 50
 batch_size = 100
-disp_step  = 1
+disp_step  = 10
 
 sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
 sess.run(init)
@@ -154,29 +154,8 @@ if TRAIN_FLAG:
             feeds = {x: batch_xs_noisy, y: batch_xs, dropout_keep_prob: 1.}
             sess.run(optm, feed_dict=feeds)
             total_cost += sess.run(cost, feed_dict=feeds)
-        # DISPLAY
         if epoch % disp_step == 0:
             print ("Epoch %02d/%02d average cost: %.6f" 
                    % (epoch, epochs, total_cost/num_batch))
-            # PLOT
-            randidx  = np.random.randint(test_X.shape[0], size=1)
-            testvec  = test_X[randidx, :]
-            noisyvec = testvec + 0.3*np.random.randn(1, 784)
-            outvec   = sess.run(reconstruction, feed_dict={x: testvec, dropout_keep_prob: 1.})
-            outimg   = np.reshape(outvec, (28, 28))
-            # Plot 
-            plt.matshow(np.reshape(testvec, (28, 28)), cmap=plt.get_cmap('gray'))
-            plt.title("[" + str(epoch) + "] Original Image")
-            plt.colorbar()
-            plt.show()
-            plt.matshow(np.reshape(noisyvec, (28, 28)), cmap=plt.get_cmap('gray'))
-            plt.title("[" + str(epoch) + "] Input Image")
-            plt.colorbar()
-            plt.show()
-            plt.matshow(outimg, cmap=plt.get_cmap('gray'))
-            plt.title("[" + str(epoch) + "] Reconstructed Image")
-            plt.colorbar()
-            plt.show()
-        # SAVE
-        saver.save(sess, savedir + 'denoise_auto_encoder.ckpt', global_step=epoch)
+    saver.save(sess, savedir + 'denoise_auto_encoder.ckpt', global_step=epoch)
 print ("OPTIMIZATION FINISHED")
