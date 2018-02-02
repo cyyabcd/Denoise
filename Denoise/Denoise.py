@@ -117,7 +117,7 @@ def denoise_auto_encoder(_X, _weights, _biases, _keep_prob):
 
 # MODEL AS A FUNCTION
 #reconstruction = denoise_auto_encoder(x, weights, biases, dropout_keep_prob)
-with tf.device('/device:GPU:2'):
+with tf.device('/device:GPU:4'):
     reconstruction = RecNet(x,J)
 
 
