@@ -1,0 +1,68 @@
+import numpy as np
+import tensorflow as tf
+
+# RecNet Model
+n_channel = 3
+def RecNet(_X, J):
+    input_layer = tf.reshape(_X,[-1,128,128,3])
+    rec = RecNet_level(input_layer, J, 1)
+    out = tf.reshape(rec,[-1, 128,128,3])
+    return out
+
+
+def RecNet_level(_X, J, l):
+    # J == l
+    if l == J:
+        out = tf.layers.conv2d(
+            inputs = _X,
+            filters = n_channel,
+            kernel_size = [5,5],
+            padding = "same",
+            activation = tf.nn.relu)
+    else:
+        conv1 = tf.layers.conv2d(
+            inputs = _X,
+            filters = n_channel,
+            kernel_size = [5,5],
+            padding = "same",
+            activation = tf.nn.relu)
+        conv2 = _X + tf.layers.conv2d(
+            inputs = conv1,
+            filters = n_channel,
+            kernel_size = [5,5],
+            padding = "same",
+            activation = tf.nn.relu)
+        resconv = _X - tf.layers.conv2d(
+            inputs = conv2,
+            filters = n_channel,
+            kernel_size = [5,5],
+            padding = "same",
+            activation = tf.nn.relu);
+        xc= tf.layers.conv2d(
+            inputs = resconv,
+            filters = n_channel,
+            kernel_size = [5,5],
+            strides = [2,2],
+            padding = "same",
+            activation = tf.nn.relu)
+        ec = RecNet_level(xc,J,l+1)
+        convtp1 = conv1 + tf.layers.conv2d_transpose(
+            inputs = ec,
+            filters = n_channel,
+            kernel_size = [5,5],
+            strides = [2,2],
+            padding = "same",
+            activation = tf.nn.relu)
+        out1 = convtp1 + tf.layers.conv2d(
+            inputs = convtp1,
+            filters = n_channel,
+            kernel_size = [5,5],
+            padding = "same",
+            activation = tf.nn.relu)
+        out =  tf.layers.conv2d(
+            inputs = out1,
+            filters = n_channel,
+            kernel_size = [5,5],
+            padding = "same",
+            activation = tf.nn.relu)
+    return out
