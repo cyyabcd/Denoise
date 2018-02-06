@@ -3,7 +3,7 @@ import tensorflow as tf
 
 # RecNet Model
 
-n_channels = [3,6]
+n_channels = [3, 12]
 def RecNet(_X,J):
     out = RecNet_level(_X, J, 1)
     return out
