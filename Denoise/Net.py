@@ -6,13 +6,13 @@ n_channel = 3
 def RecNet(_X,J):
     out = RecNet_level(_X, J, 1)
     return out
-
+'''
 def RecNet(_X, J, H, W):
     input_layer = tf.reshape(_X,[-1,H,W,3])
     rec = RecNet_level(input_layer, J, 1)
     out = tf.reshape(rec,[-1,H,W,3])
     return out
-
+'''
 
 def RecNet_level(_X, J, l):
     # J == l

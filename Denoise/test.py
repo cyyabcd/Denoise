@@ -14,7 +14,7 @@ cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
 # OPTIMIZER
 optm = tf.train.AdamOptimizer(0.01).minimize(cost)
 
-epochs = 10
+epochs = 1
 batch_size = 100
 n_example = 14000
 disp_step = 10
