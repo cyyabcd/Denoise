@@ -61,6 +61,7 @@ with tf.Session() as sess: #开始一个会话
             data = np.reshape(data,(1, height, width, 3))
             feeds_nosie ={x:data}
             denoise_img = sess.run(reconstruction, feed_dict=feeds_nosie)
+            denoise_img = np.reshape(denoise_img,(height, width, 3))
             denoise_img = denoise_img*255
             new_im = Image.fromarray(denoise_img.astype(np.uint8))
             new_im.save(noise_img_savepath)
