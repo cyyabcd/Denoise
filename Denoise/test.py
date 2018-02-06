@@ -15,7 +15,7 @@ cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
 # OPTIMIZER
 optm = tf.train.AdamOptimizer(0.01).minimize(cost)
 
-epochs = 1
+epochs = 10
 batch_size = 100
 n_example = 14000
 disp_step = 10
@@ -56,7 +56,7 @@ with tf.Session() as sess: #开始一个会话
             noise_img_savepath = outputpath + "%d_%d.jpg"%(i,sigma)
             noise_img = Image.open(noise_img_path)
             height, width = noise_img.size
-            noise_img_data = noise_img.getdata()
+            noise_img_data = np.array(noise_img)
             data = np.array(noise_img_data,dtype = 'float')/255.
             data = np.reshape(data,(1, height, width, 3))
             feeds_nosie ={x:data}
