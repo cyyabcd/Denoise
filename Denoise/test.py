@@ -8,7 +8,7 @@ x = tf.placeholder("float", [None,None,None,3])
 y = tf.placeholder("float", [None,None,None,3])
 H = tf.placeholder("int32")
 W = tf.placeholder("int32")
-reconstruction = Net.RecNet(x,J,H,W)
+reconstruction = Net.RecNet(x,J)
 # COST
 cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
 # OPTIMIZER
@@ -25,7 +25,11 @@ label_batch, noise_batch = tf.train.shuffle_batch([label, noise],
 
 init_op = tf.global_variables_initializer()
 
-testdatapath='data/test'
+testdatapath='data/test/'
+outputpath='tmp/test/'
+
+savedir = "tmp/"
+saver   = tf.train.Saver(max_to_keep=1)
 with tf.Session() as sess: #开始一个会话
     sess.run(init_op)
     coord = tf.train.Coordinator()
@@ -37,13 +41,23 @@ with tf.Session() as sess: #开始一个会话
 
         for i in range(num_batch):
             label_img, noise_img= sess.run([label_batch, noise_batch])
-            feeds = {x:noise_img, y:label_img, H:128, W:128}
+            feeds = {x:noise_img, y:label_img}
             sess.run(optm, feed_dict = feeds)
             total_cost += sess.run(cost,feed_dict=feeds)
         print ("%.6f" %(total_cost/num_batch))
     print("训练完成！")
-    print("开始测试。。。")
     
+    saver.save(sess, savedir + 'denoise_auto_encoder.ckpt', global_step=epoch)
+    print("开始测试。。。")
+    for i in range(5):
+        for sigma in dataset.Image_Noise:
+            noise_img_path = testdatapath+"%d_%d.jpg"%(i,sigma)
+            noise_img_savepath = outputpath + "%d_%d.jpg"%(i,sigma)
+            noise_img = Image.open(noise_img_path)
+            noise_img = float32(noise_img)*(1./255)
+            feeds_nosie ={x:noise_img}
+            denoise_img = sess.run(y, feed_dict=feeds_nosie)
+            Image.save(uint8(255*denoise_img),noise_img_savepath)
     coord.request_stop()
     coord.join(threads)
 
