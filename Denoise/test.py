@@ -54,7 +54,7 @@ with tf.Session() as sess: #开始一个会话
             noise_img_path = testdatapath+"%d_%d.jpg"%(i,sigma)
             noise_img_savepath = outputpath + "%d_%d.jpg"%(i,sigma)
             noise_img = Image.open(noise_img_path)
-            noise_img = float32(noise_img)*(1./255)
+            noise_img = float(noise_img)*(1./255)
             feeds_nosie ={x:noise_img}
             denoise_img = sess.run(y, feed_dict=feeds_nosie)
             Image.save(uint8(255*denoise_img),noise_img_savepath)
