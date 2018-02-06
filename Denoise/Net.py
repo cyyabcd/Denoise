@@ -3,10 +3,10 @@ import tensorflow as tf
 
 # RecNet Model
 n_channel = 3
-def RecNet(_X, J):
-    input_layer = tf.reshape(_X,[-1,128,128,3])
+def RecNet(_X, J, H, W):
+    input_layer = tf.reshape(_X,[-1,H,W,3])
     rec = RecNet_level(input_layer, J, 1)
-    out = tf.reshape(rec,[-1, 128,128,3])
+    out = tf.reshape(rec,[-1,H,W,3])
     return out
 
 
