@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import Net
 import numpy as np
-from skimage import img_as_float, img_as_ubyte
 from PIL import Image
 J = 2
 x = tf.placeholder("float", [None,None,None,3])
@@ -56,10 +55,10 @@ with tf.Session() as sess: #开始一个会话
             noise_img_path = testdatapath+"%d_%d.jpg"%(i,sigma)
             noise_img_savepath = outputpath + "%d_%d.jpg"%(i,sigma)
             noise_img = Image.open(noise_img_path)
-            height, width, channel = noise_img.size
+            height, width = noise_img.size
             noise_img_data = noise_img.getdata()
             data = np.matrix(noise_img_data,dtype = 'float')/255.
-            data = np.reshape(date,(height, width, channel))
+            data = np.reshape(date,(height, width, 3))
             feeds_nosie ={x:data}
             denoise_img = sess.run(y, feed_dict=feeds_nosie)
             denoise_img = denoise_img*255
