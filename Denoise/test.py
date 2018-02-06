@@ -58,7 +58,7 @@ with tf.Session() as sess: #开始一个会话
             height, width = noise_img.size
             noise_img_data = noise_img.getdata()
             data = np.matrix(noise_img_data,dtype = 'float')/255.
-            data = np.reshape(date,(height, width, 3))
+            data = np.reshape(data,(height, width, 3))
             feeds_nosie ={x:data}
             denoise_img = sess.run(y, feed_dict=feeds_nosie)
             denoise_img = denoise_img*255
