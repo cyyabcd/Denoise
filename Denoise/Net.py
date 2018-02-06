@@ -51,7 +51,7 @@ def RecNet_level(_X, J, l):
             padding = "same",
             activation = tf.nn.relu)
         ec = RecNet_level(xc,J,l+1)
-        convtp1 = conv2 + tf.layers.conv2d_transpos(
+        convtp1 = conv2 + tf.layers.conv2d_transpose(
             inputs = ec,
             filters = n_channels[l-1],
             kernel_size = [5,5],
