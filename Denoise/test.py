@@ -57,7 +57,7 @@ with tf.Session() as sess: #开始一个会话
             noise_img = Image.open(noise_img_path)
             height, width = noise_img.size
             noise_img_data = noise_img.getdata()
-            data = np.matrix(noise_img_data,dtype = 'float')/255.
+            data = np.array(noise_img_data,dtype = 'float')/255.
             data = np.reshape(data,(height, width, 3))
             feeds_nosie ={x:data}
             denoise_img = sess.run(y, feed_dict=feeds_nosie)
