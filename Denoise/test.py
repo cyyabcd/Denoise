@@ -4,12 +4,13 @@ import tensorflow as tf
 import Net
 import numpy as np
 from PIL import Image
-J = 2
+J = 3
 x = tf.placeholder("float", [None,None,None,3])
 y = tf.placeholder("float", [None,None,None,3])
 H = tf.placeholder("int32")
 W = tf.placeholder("int32")
 reconstruction = Net.RecNet(x,J)
+print("模型完成")
 # COST
 cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
 # OPTIMIZER
