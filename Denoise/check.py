@@ -7,10 +7,12 @@ from PIL import Image
 J = 3
 x = tf.placeholder("float", [None,None,None,3])
 y = tf.placeholder("float", [None,None,None,3])
+H = tf.placeholder("int32")
+W = tf.placeholder("int32")
 reconstruction = Net.RecNet(x,J)
 print("模型完成")
 # COST
-cost = tf.reduce_mean(tf.square(reconstruction-y))
+cost = tf.reduce_mean(tf.pow(reconstruction-y, 2))
 # OPTIMIZER
 optm = tf.train.AdamOptimizer(0.01).minimize(cost)
 
@@ -28,8 +30,6 @@ init_op = tf.global_variables_initializer()
 testdatapath='data/test/'
 outputpath='tmp/test/'
 
-savedir = "tmp/"
-saver   = tf.train.Saver(max_to_keep=1)
 with tf.Session() as sess: #开始一个会话
     sess.run(init_op)
     coord = tf.train.Coordinator()
@@ -41,13 +41,14 @@ with tf.Session() as sess: #开始一个会话
 
         for i in range(num_batch):
             label_img, noise_img= sess.run([label_batch, noise_batch])
-            feeds = {x:noise_img, y:label_img}
-            sess.run(optm, feed_dict = feeds)
-            total_cost += sess.run(cost,feed_dict=feeds)
-        print ("%.6f" %(total_cost/num_batch))
+            label1= label_img[0,:]*255
+            noise1= noise_img[0,:]*255
+            label1_img = Image.fromarray(label1.astype(np.uint8))
+            noise1_img = Image.fromarray(noise1.astype(np.uint8))
+            label1_img.show()
+            noise1_img.show()
     print("训练完成！")
     
-    saver.save(sess, savedir + 'denoise_auto_encoder.ckpt', global_step=epoch)
     print("开始测试。。。")
     for i in range(5):
         for sigma in dataset.Image_Noise:
@@ -66,5 +67,6 @@ with tf.Session() as sess: #开始一个会话
             new_im.save(noise_img_savepath)
     coord.request_stop()
     coord.join(threads)
+
 
 
