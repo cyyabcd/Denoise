@@ -4,7 +4,7 @@ import tensorflow as tf
 # RecNet Model
 
 def RecNet(_X, J):
-    ml = [3]
+    ml = [2]
     n_channels = [3]
     for i in range(J):
         n_channels.append(n_channels[i]*2)
@@ -29,7 +29,7 @@ def RecNet_level(_X, J, l, ml, n_channels):
             padding = "same",
             activation = tf.nn.relu)
         for i in range(ml[J-1]-1):
-            out = tf.layers.conv2d(
+            out = out + tf.layers.conv2d(
                 inputs = out,
                 filters = n_channels[J-1],
                 kernel_size = [5,5],
@@ -42,13 +42,15 @@ def RecNet_level(_X, J, l, ml, n_channels):
             kernel_size = [5,5],
             padding = "same",
             activation = tf.nn.relu)
-        for i in range(ml[l-1]-1):
-            conv = tf.layers.conv2d(
-                inputs = conv,
-                filters = n_channels[l-1],
-                kernel_size = [5,5],
-                padding = "same",
-                activation = tf.nn.relu)
+
+        #for i in range(ml[l-1]-1):
+        #    conv = conv + tf.layers.conv2d(
+        #        inputs = conv,
+        #        filters = n_channels[l-1],
+        #        kernel_size = [5,5],
+        #        padding = "same",
+        #        activation = tf.nn.relu)
+
         resconv = _X - tf.layers.conv2d(
             inputs = conv,
             filters = n_channels[l-1],
@@ -70,13 +72,15 @@ def RecNet_level(_X, J, l, ml, n_channels):
             strides = [2,2],
             padding = "same",
             activation = tf.nn.relu)
-        for i in range(ml[l-1]):
-            convtp = tf.layers.conv2d(
-                inputs = convtp,
-                filters = n_channels[l-1],
-                kernel_size = [5,5],
-                padding = "same",
-                activation = tf.nn.relu)
+
+        #for i in range(ml[l-1]):
+        #    convtp = convtp + tf.layers.conv2d(
+        #        inputs = convtp,
+        #        filters = n_channels[l-1],
+        #        kernel_size = [5,5],
+        #        padding = "same",
+        #        activation = tf.nn.relu)
+
         out =  tf.layers.conv2d(
             inputs = convtp,
             filters = n_channels[l-1],
