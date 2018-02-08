@@ -29,7 +29,7 @@ def RecNet_level(_X, J, l, ml, n_channels):
             padding = "same",
             activation = tf.nn.relu)
         for i in range(ml[J-1]-1):
-            out = out + tf.layers.conv2d(
+            out = tf.layers.conv2d(
                 inputs = out,
                 filters = n_channels[J-1],
                 kernel_size = [5,5],
@@ -43,7 +43,7 @@ def RecNet_level(_X, J, l, ml, n_channels):
             padding = "same",
             activation = tf.nn.relu)
         for i in range(ml[l-1]-1):
-            conv = conv + tf.layers.conv2d(
+            conv = tf.layers.conv2d(
                 inputs = conv,
                 filters = n_channels[l-1],
                 kernel_size = [5,5],
@@ -71,7 +71,7 @@ def RecNet_level(_X, J, l, ml, n_channels):
             padding = "same",
             activation = tf.nn.relu)
         for i in range(ml[l-1]):
-            convtp = convtp + tf.layers.conv2d(
+            convtp = tf.layers.conv2d(
                 inputs = convtp,
                 filters = n_channels[l-1],
                 kernel_size = [5,5],
