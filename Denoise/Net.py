@@ -4,10 +4,10 @@ import tensorflow as tf
 # RecNet Model
 
 def RecNet(_X, J):
-    ml = [2]
+    ml = [3]
     n_channels = [3]
     for i in range(J):
-        n_channels.append(n_channels[i]*2)
+        n_channels.append(n_channels[i]*8)
         ml.append(ml[i])
     out = RecNet_level(_X, J, 1, ml, n_channels)
     return out
