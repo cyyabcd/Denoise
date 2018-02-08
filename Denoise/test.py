@@ -8,8 +8,8 @@ from PIL import Image
 J = 3
 x = tf.placeholder("float", [None,None,None,3])
 y = tf.placeholder("float", [None,None,None,3])
-# reconstruction = Net.RecNet(x,J)
-reconstruction = OtherNet.OtherNet(x)
+reconstruction = Net.RecNet(x,J)
+# reconstruction = OtherNet.OtherNet(x)
 print("模型完成")
 # COST
 cost = tf.reduce_mean(tf.square(reconstruction-y))
