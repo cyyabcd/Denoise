@@ -49,7 +49,7 @@ def OtherNet(_X):
                 kernel_size = [5,5],
                 padding = "same",
                 activation = tf.nn.relu)
-    X2 = convpt2 + convpt1
+    X2 = convtp2 + convtp1
     out =  tf.layers.conv2d(
             inputs = X2,
             filters = 3,
