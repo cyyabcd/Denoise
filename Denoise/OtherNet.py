@@ -9,7 +9,7 @@ def OtherNet(_X):
             padding = "same",
             activation = tf.nn.relu)
     conv2 = tf.layers.conv2d(
-            inputs = conv1,
+            inputs = _X - conv1,
             filters = 3,
             kernel_size = [5,5],
             padding = "same",
@@ -43,15 +43,8 @@ def OtherNet(_X):
             padding = "same",
             activation = tf.nn.relu)
 
-    convtp2 = tf.layers.conv2d(
-                inputs = convtp1,
-                filters = 3,
-                kernel_size = [5,5],
-                padding = "same",
-                activation = tf.nn.relu)
-    X2 = convtp2 + convtp1
     out =  tf.layers.conv2d(
-            inputs = X2,
+            inputs = convtp1,
             filters = 3,
             kernel_size = [5,5],
             padding = "same",
