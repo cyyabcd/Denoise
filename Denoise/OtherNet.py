@@ -15,7 +15,7 @@ def OtherNet(_X):
             padding = "same",
             activation = tf.nn.relu)
     X1 = conv1 + conv2
-    resconv = _X - tf.layers.conv2d(
+    resconv = X1 - tf.layers.conv2d(
             inputs = X1,
             filters = 3,
             kernel_size = [5,5],
