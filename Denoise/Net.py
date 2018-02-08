@@ -43,13 +43,13 @@ def RecNet_level(_X, J, l, ml, n_channels):
             padding = "same",
             activation = tf.nn.relu)
 
-        #for i in range(ml[l-1]-1):
-        #    conv = conv + tf.layers.conv2d(
-        #        inputs = conv,
-        #        filters = n_channels[l-1],
-        #        kernel_size = [5,5],
-        #        padding = "same",
-        #        activation = tf.nn.relu)
+        for i in range(ml[l-1]-1):
+            conv = conv + tf.layers.conv2d(
+                inputs = conv,
+                filters = n_channels[l-1],
+                kernel_size = [5,5],
+                padding = "same",
+                activation = tf.nn.relu)
 
         resconv = _X - tf.layers.conv2d(
             inputs = conv,
@@ -73,13 +73,13 @@ def RecNet_level(_X, J, l, ml, n_channels):
             padding = "same",
             activation = tf.nn.relu)
 
-        #for i in range(ml[l-1]):
-        #    convtp = convtp + tf.layers.conv2d(
-        #        inputs = convtp,
-        #        filters = n_channels[l-1],
-        #        kernel_size = [5,5],
-        #        padding = "same",
-        #        activation = tf.nn.relu)
+        for i in range(ml[l-1]):
+            convtp = convtp + tf.layers.conv2d(
+                inputs = convtp,
+                filters = n_channels[l-1],
+                kernel_size = [5,5],
+                padding = "same",
+                activation = tf.nn.relu)
 
         out =  tf.layers.conv2d(
             inputs = convtp,
